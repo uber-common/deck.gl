@@ -10,7 +10,7 @@ import mapboxgl, {modifyMapboxElements} from './utils/mapbox-utils';
 import {loadScript} from './utils/script-utils';
 import {createGoogleMapsDeckOverlay} from './utils/google-maps-utils';
 
-import {addSupportComponents} from '../lib/components/index';
+import {addSupportComponents} from '@deck.gl/json/src/components';
 
 import * as deck from '../deck-bundle';
 
@@ -110,7 +110,7 @@ function createStandaloneFromProvider({
   getTooltip,
   container
 }) {
-  // Common deck.gl props for all basemaos
+  // Common deck.gl props for all basemaps
   const handlers = handleEvent
     ? {
         onClick: info => handleEvent('deck-click-event', info),
