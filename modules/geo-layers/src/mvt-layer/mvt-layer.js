@@ -110,7 +110,7 @@ export default class MVTLayer extends TileLayer {
         // Set worker to null to skip web workers
         // workerUrl: null
       },
-      gis: this.props.binary ? { format: 'binary' } : undefined
+      gis: this.props.binary ? {format: 'binary'} : undefined
     };
     return load(url, MVTLoader, options);
   }
@@ -178,29 +178,33 @@ export default class MVTLayer extends TileLayer {
         let geometryIndex;
         let featureIndex;
         switch (geomType) {
-          case 'points':    geometryIndex = data.featureIds.value[info.index];
-                            featureIndex = geometryIndex;
-                            break;
-          case 'lines':     featureIndex = data.pathIndices.value[info.index];
-                            geometryIndex = data.featureIds.value[featureIndex];
-                            break;
-          case 'polygons':  featureIndex = data.polygonIndices.value[info.index];
-                            geometryIndex = data.featureIds.value[featureIndex];
-                            break;
-          default:          featureIndex = -1;
-                            geometryIndex = featureIndex;
-                            
+          case 'points':
+            geometryIndex = data.featureIds.value[info.index];
+            featureIndex = geometryIndex;
+            break;
+          case 'lines':
+            featureIndex = data.pathIndices.value[info.index];
+            geometryIndex = data.featureIds.value[featureIndex];
+            break;
+          case 'polygons':
+            featureIndex = data.polygonIndices.value[info.index];
+            geometryIndex = data.featureIds.value[featureIndex];
+            break;
+          default:
+            featureIndex = -1;
+            geometryIndex = featureIndex;
         }
 
         if (featureIndex !== -1) {
           const numericProps = {};
-            // eslint-disable-next-line max-depth
-            for (const prop in data.numericProps) {
-              numericProps[prop]=data.numericProps[prop].value[featureIndex * data.numericProps[prop].size];
-            }
-          info.object = {
-            properties: { ...data.properties[geometryIndex], ...numericProps }
+          // eslint-disable-next-line max-depth
+          for (const prop in data.numericProps) {
+            numericProps[prop] =
+              data.numericProps[prop].value[featureIndex * data.numericProps[prop].size];
           }
+          info.object = {
+            properties: {...data.properties[geometryIndex], ...numericProps}
+          };
         }
       }
     }
@@ -212,7 +216,7 @@ export default class MVTLayer extends TileLayer {
     const {hoveredFeatureId} = this.state;
     const {uniqueIdProperty, highlightedFeatureId, binary} = this.props;
     const {data} = tile;
-    
+
     const isFeatureIdPresent =
       isFeatureIdDefined(hoveredFeatureId) || isFeatureIdDefined(highlightedFeatureId);
 
@@ -229,10 +233,14 @@ export default class MVTLayer extends TileLayer {
       return data.findIndex(
         feature => getFeatureUniqueId(feature, uniqueIdProperty) === featureIdToHighlight
       );
-    
-    // Non-iterable data
+
+      // Non-iterable data
     } else if (data && binary) {
-      const index = this._getHightlightedObjectIndexForBinaryData(data, uniqueIdProperty, featureIdToHighlight);
+      const index = this._getHightlightedObjectIndexForBinaryData(
+        data,
+        uniqueIdProperty,
+        featureIdToHighlight
+      );
       return index;
     }
 
@@ -271,17 +279,22 @@ export default class MVTLayer extends TileLayer {
       if (data[geomType].numericProps[uniqueIdProperty]) {
         index = data[geomType].numericProps[uniqueIdProperty].value.indexOf(featureIdToHighlight);
       } else {
-        const propertyIndex = data[geomType].properties.findIndex((elem) => elem[uniqueIdProperty] === featureIdToHighlight);
+        const propertyIndex = data[geomType].properties.findIndex(
+          elem => elem[uniqueIdProperty] === featureIdToHighlight
+        );
         index = data[geomType].featureIds.value.indexOf(propertyIndex);
       }
-      
+
       if (index !== -1) {
         // Select geometry index depending on geometry type
         // eslint-disable-next-line default-case
         switch (geomType) {
-          case 'points':    return data[geomType].featureIds.value.indexOf(index);
-          case 'lines':     return data[geomType].pathIndices.value.indexOf(index);
-          case 'polygons':  return data[geomType].polygonIndices.value.indexOf(index);
+          case 'points':
+            return data[geomType].featureIds.value.indexOf(index);
+          case 'lines':
+            return data[geomType].pathIndices.value.indexOf(index);
+          case 'polygons':
+            return data[geomType].polygonIndices.value.indexOf(index);
         }
       }
     }

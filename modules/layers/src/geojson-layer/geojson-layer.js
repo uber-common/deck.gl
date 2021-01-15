@@ -19,6 +19,7 @@
 // THE SOFTWARE.
 
 import {CompositeLayer, log} from '@deck.gl/core';
+import GL from '@luma.gl/constants';
 import ScatterplotLayer from '../scatterplot-layer/scatterplot-layer';
 import PathLayer from '../path-layer/path-layer';
 // Use primitive layer to avoid "Composite Composite" layers for now
@@ -198,7 +199,12 @@ export default class GeoJsonLayer extends CompositeLayer {
         attributes: {
           getPolygon: polygons.positions,
           getProperties: polygons.properties,
-          getNumericProps: polygons.numericProps
+          getNumericProps: polygons.numericProps,
+          customPickingColors: {
+            size: 3,
+            type: GL.UNSIGNED_BYTE,
+            update: this.calculatePickingColors
+          }
         }
       };
       layerProps.polygons._normalize = false;
@@ -429,6 +435,40 @@ export default class GeoJsonLayer extends CompositeLayer {
     }
     return {...numericProps, ...properties};
   }
+
+  // Custom picking color to keep binary indexes
+
+  calculatePickingColors(attribute) {
+    console.log("CalculatePickingColors", attribute);
+
+    const {data} = this.props;
+    const {value} = attribute;
+
+    let i = 0;
+    for (const object of data) {
+      const pickingColor = this.encodePickingColor(i);
+      value[i * 3] = pickingColor[0];
+      value[i * 3 + 1] = pickingColor[1];
+      value[i * 3 + 2] = pickingColor[2];
+      i++;
+    }
+  }
+
+  getPickingInfo(params) {
+    console.log("GetPickingInfo", params.info.index, params);
+    return params.info;
+  }
+
+  encodePickingColor(index) {
+    console.log("encodePickingColor", index);
+    return [0, 0, 0];
+  }
+
+  decodePickingColor(color) {
+    console.log("decodePickingColor", color);
+    return 0;
+  }
+
 }
 
 GeoJsonLayer.layerName = 'GeoJsonLayer';
