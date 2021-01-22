@@ -2,6 +2,41 @@
 
 This page contains highlights of each deck.gl release. Also check our [vis.gl blog](https://medium.com/vis-gl) for news about new releases and features in deck.gl.
 
+## deck.gl v8.4
+
+Release Date: Jan 31, 2021
+
+### MVT Layer
+
+#### Binary format
+
+A new property binary is added to the MVT layer. If set to true, it removes the need for serialization and deserialization of data transferred by the worker back to the main process.
+
+Resolution: 1140x900.
+View State:
+
+```javascript
+{
+  latitude: 41.850033,
+  longitude: -92.6500523,
+  zoom: 3
+}
+```
+
+*Benchmark run on 2017 Macbook Pro, 3,1 GHz Dual-Core Intel Core i5, 16 GB memory, Intel Iris Plus Graphics 650 1536 MB. Network transfer data is not included*
+
+
+|                    | N Vertex | Binary  | Non-Binary  | Change    |
+| ------------------ | -------- | ------- | ----------- | --------- |
+| Usa Admin States   | 12K      | 963ms   | 1109ms      | -13.16%   |
+| Counties Layer     | 175K     | 1222ms  | 1956ms      | -37.52%   |
+| Census Tract       | 988K     | 2713ms  | 6242ms      | -56.53%   |
+| Block groups       | 1.57M    | 4261ms  | 9202ms      | -53.69%   |
+| Usa Zip Code Layer | 1.38M    | 2938ms  | 6564ms      | -55.24%   |
+
+
+### New module: @deck.gl/carto
+
 ## deck.gl v8.3
 
 Release Date: Oct 12, 2020
