@@ -8,7 +8,7 @@ const CONFIG = {
   mode: 'development',
 
   entry: {
-    app: './app.js'
+    app: './app-bin.js'
   },
 
   module: {
