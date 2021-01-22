@@ -48,10 +48,6 @@ export default class MVTLayer extends TileLayer {
     if (this.state.data) {
       super.updateState({props, oldProps, context, changeFlags});
       this._setWGS84PropertyForTiles();
-      const {tileset} = this.state;
-      if (changeFlags.viewportChanged && tileset.isLoaded) {
-        this._onViewportChange();
-      }
     }
   }
 
@@ -248,17 +244,6 @@ export default class MVTLayer extends TileLayer {
     }
 
     return renderedFeatures;
-  }
-
-  _onViewportChange() {
-    const {onViewportChange} = this.props;
-    if (onViewportChange) {
-      const {viewport} = this.context;
-      onViewportChange({
-        getRenderedFeatures: this.getRenderedFeatures.bind(this),
-        viewport
-      });
-    }
   }
 
   _setWGS84PropertyForTiles() {
