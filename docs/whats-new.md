@@ -2,9 +2,13 @@
 
 This page contains highlights of each deck.gl release. Also check our [vis.gl blog](https://medium.com/vis-gl) for news about new releases and features in deck.gl.
 
-## deck.gl v8.4
+## deck.gl v8.4 (in development)
 
-Release Date: Jan 31, 2021
+Release data: TBD
+
+### BitmapLayer
+
+- `BitmapLayer` picking callbacks now provide information on which pixel was picked.
 
 ### MVT Layer
 
@@ -34,8 +38,6 @@ View State:
 | Block groups       | 1.57M    | 4261ms  | 9202ms      | -53.69%   |
 | Usa Zip Code Layer | 1.38M    | 2938ms  | 6564ms      | -55.24%   |
 
-
-### New module: @deck.gl/carto
 
 ## deck.gl v8.3
 
