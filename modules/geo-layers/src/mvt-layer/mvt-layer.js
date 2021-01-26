@@ -103,11 +103,11 @@ export default class MVTLayer extends TileLayer {
       mvt: {
         ...(options && options.mvt),
         coordinates: this.context.viewport.resolution ? 'wgs84' : 'local',
-        tileIndex: {x: tile.x, y: tile.y, z: tile.z}
+        tileIndex: {x: tile.x, y: tile.y, z: tile.z},
         // Local worker debug
         // workerUrl: `modules/mvt/dist/mvt-loader.worker.js`
         // Set worker to null to skip web workers
-        // workerUrl: null
+        workerUrl: null
       },
       gis: this.props.binary ? {format: 'binary'} : undefined
     };
@@ -259,12 +259,6 @@ export default class MVTLayer extends TileLayer {
             // Still loading or encountered an error
             if (!tile.content) {
               return null;
-            }
-
-            if (this.props.binary && Array.isArray(tile.content) && !tile.content.length) {
-              // TODO: @deck.gl/loaders returns [] when no content. It should return a valid empty binary.
-              // https://github.com/visgl/loaders.gl/blob/master/modules/mvt/src/lib/parse-mvt.js#L17
-              return [];
             }
 
             if (tile._contentWGS84 === undefined) {

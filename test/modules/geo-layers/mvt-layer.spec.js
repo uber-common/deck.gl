@@ -302,7 +302,7 @@ test('MVT dataInWGS84', async t => {
       const contentWGS84 = tile.dataInWGS84;
 
       t.deepEqual(
-        contentWGS84[0].geometry.coordinates,
+        contentWGS84 && contentWGS84[0].geometry.coordinates,
         geoJSONDataWGS84[0].geometry.coordinates,
         'should transform to WGS84'
       );
@@ -322,13 +322,13 @@ test('MVT dataInWGS84', async t => {
         binary: false
       },
       onAfterUpdate
+    },
+    {
+      updateProps: {
+        binary: true
+      },
+      onAfterUpdate
     }
-    // {
-    //   updateProps: {
-    //     binary: true
-    //   },
-    //   onAfterUpdate
-    // }
   ];
 
   await testLayerAsync({Layer: TestMVTLayer, viewport, testCases, onError: t.notOk});
